@@ -1,0 +1,58 @@
+.chart-gpa{
+    width: 100%;
+}
+/* gpa chart */
+.chart-gpa-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.courses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.course-container {
+    margin-bottom: 20px;
+    width: 48%;
+}
+
+.toggles{
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0 2.5rem 0;
+    border-bottom: .4px solid rgb(215, 215, 215);
+}
+
+.course-fields {
+    display: flex;
+}
+
+.course-slider {
+    width: 100%;
+}
+
+.chart-container {
+    width: 600px;
+    height: 400px;
+    margin-right: 20px;
+}
+
+
+.gpa-buttons{
+    width: 100%;
+    display: flex;
+   justify-content: center;
+    gap: 1.5em;
+}
+
+.gpa-button{
+    width: 100%;
+    font-size: 2rem;
+    height: auto;
+    padding: .8em;
+    transition: width 0.3s ease; /* Add transition for the width property */
+}
+
