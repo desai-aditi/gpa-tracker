@@ -1,5 +1,5 @@
 # ChartGPA
-FBLA Introduction to Programming
+FBLA Introduction to Programming, created by
 Aditi Desai & Syna Goyal
 
 ## Overview

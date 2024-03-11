@@ -1,3 +1,4 @@
+// Import necessary modules from React, echarts, and antd
 import React, { useEffect, useState, useRef } from 'react';
 import * as echarts from 'echarts/core';
 import { Slider, Input, Select, Button, Switch, Radio } from 'antd';
@@ -10,8 +11,10 @@ import '../css/chartgpa.css'; // Import your custom styles
 
 const { Option } = Select;
 
+// Initialize echarts components
 echarts.use([GridComponent, TooltipComponent, BarChart, CanvasRenderer]);
 
+// Define types for Course and CalculationMode
 type Course = {
   name: string;
   grade: number;
@@ -21,7 +24,9 @@ type Course = {
 
 type CalculationMode = 'unweighted' | 'weighted';
 
+// Define the main component for calculating GPA
 const CalculateGPA: React.FC = () => {
+  // State variables for courses, GPA, target GPA, target mode, calculation mode, and chart reference
   const [courses, setCourses] = useState<Course[]>([
     { name: 'Course 1', grade: 75, weight: 'normal' },
     { name: 'Course 2', grade: 80, weight: 'normal' }
@@ -32,22 +37,27 @@ const CalculateGPA: React.FC = () => {
   const [calculationMode, setCalculationMode] = useState<CalculationMode>('weighted'); // Added state
   const chartRef = useRef<HTMLDivElement | null>(null);
 
+  // Effect hook to initialize the chart and calculate GPA when dependencies change
   useEffect(() => {
     try {
+      // Initialize the chart if the chartRef is available
       if (chartRef.current) {
         const myChart = echarts.init(chartRef.current);
         updateChart(myChart, courses, targetGpa, isTargetMode);
       }
+      // Calculate GPA based on courses, target mode, and calculation mode
       calculateGPA(courses, isTargetMode, calculationMode);
     } catch (error) {
+      // Log an error if there is an issue initializing the chart
       console.error('Error initializing chart:', error);
     }
   }, [courses, targetGpa, isTargetMode, calculationMode]);
 
+  // Function to handle changes in course grades
   const handleGradeChange = (index: number, value: number) => {
     const newCourses = [...courses];
     if (isTargetMode) {
-      // Adjust the target grade
+      // Adjust the target grade and recalculate GPA if in target mode
       newCourses[index].targetGrade = value;
       calculateGPA(newCourses, isTargetMode, calculationMode);
     } else {
@@ -57,6 +67,7 @@ const CalculateGPA: React.FC = () => {
     setCourses(newCourses);
   };
 
+  // Function to add a new course if not in target mode
   const handleAddCourse = () => {
     if (!isTargetMode) {
       const updatedCourses = [...courses, { name: `Course ${courses.length + 1}`, grade: 75, weight: 'normal' }];
@@ -65,6 +76,7 @@ const CalculateGPA: React.FC = () => {
     }
   };
 
+  // Function to switch between target and current mode
   const handleSwitchMode = () => {
     setIsTargetMode(!isTargetMode);
   
@@ -79,6 +91,7 @@ const CalculateGPA: React.FC = () => {
     }
   };  
 
+  // Function to update the chart based on the provided data
   const updateChart = (chart: EChartsType, courses: Course[], targetGpa: number | null, isTargetMode: boolean) => {
     const option = {
       tooltip: {
@@ -116,7 +129,7 @@ const CalculateGPA: React.FC = () => {
     chart.setOption(option);
   };
 
-  
+  // Function to calculate GPA based on updated courses, mode, and target mode
   const calculateGPA = (updatedCourses: Course[], isTargetMode: boolean, mode: CalculationMode) => {
     let totalOriginalPoints = 0;
     let totalCourses = updatedCourses.length;
@@ -147,7 +160,7 @@ const CalculateGPA: React.FC = () => {
     setGpa(newGPA);
 
     if (isTargetMode) {
-      // Calculate target GPA
+      // Calculate target GPA if in target mode
       let targetPoints = 0;
       updatedCourses.forEach(course => {
         let targetCoursePoints = 0;
@@ -176,6 +189,7 @@ const CalculateGPA: React.FC = () => {
     }
   };
 
+  // Return the JSX for the component
   return (
       <div className='chart-gpa'>
         <div className="gpa-buttons">
@@ -258,4 +272,3 @@ const CalculateGPA: React.FC = () => {
 }  
 
 export default CalculateGPA;
-
